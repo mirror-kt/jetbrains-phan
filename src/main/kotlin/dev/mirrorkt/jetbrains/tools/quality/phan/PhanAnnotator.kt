@@ -3,8 +3,10 @@ package dev.mirrorkt.jetbrains.tools.quality.phan
 import com.intellij.codeInspection.InspectionProfile
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiFile
-import com.jetbrains.php.tools.quality.*
+import com.jetbrains.php.tools.quality.QualityToolAnnotator
+import com.jetbrains.php.tools.quality.QualityToolAnnotatorInfo
+import com.jetbrains.php.tools.quality.QualityToolMessageProcessor
+import com.jetbrains.php.tools.quality.QualityToolType
 
 object PhanAnnotator : QualityToolAnnotator<PhanValidationInspection>() {
     private val LOGGER = thisLogger()
@@ -17,17 +19,6 @@ object PhanAnnotator : QualityToolAnnotator<PhanValidationInspection>() {
         profile: InspectionProfile?,
         project: Project
     ): List<String> = emptyList()
-
-    override fun createAnnotatorInfo(
-        file: PsiFile?,
-        tool: PhanValidationInspection?,
-        inspectionProfile: InspectionProfile?,
-        project: Project?,
-        configuration: QualityToolConfiguration?,
-        isOnTheFly: Boolean
-    ): QualityToolAnnotatorInfo<PhanValidationInspection> {
-        return super.createAnnotatorInfo(file, tool, inspectionProfile, project, configuration, isOnTheFly)
-    }
 
     override fun createMessageProcessor(collectedInfo: QualityToolAnnotatorInfo<*>): QualityToolMessageProcessor =
         object : QualityToolMessageProcessor(collectedInfo) {

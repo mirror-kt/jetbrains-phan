@@ -8,18 +8,26 @@ import com.jetbrains.php.tools.quality.QualityToolType
 import dev.mirrorkt.jetbrains.phan.PHAN
 import org.jetbrains.annotations.NonNls
 
-class PhanConfigurableForm(project: Project, configuration: PhanConfiguration) :
-    QualityToolConfigurableForm<PhanConfiguration>(
+class PhanConfigurableForm<C : PhanConfiguration>(project: Project, configuration: C) :
+    QualityToolConfigurableForm<C>(
         project,
         configuration,
         PHAN,
         "phan"
     ) {
+    companion object {
+        private val VERSION_REGEX = """.*Phan (?<version>[\d.]*).*""".toRegex()
+    }
+
     @Suppress("RETURN_TYPE_MISMATCH_ON_OVERRIDE")
     override fun getQualityToolType(): QualityToolType<*> = PhanQualityToolType
 
     override fun validateMessage(@NonNls message: String): Pair<Boolean, String> {
-        val version = extractVersion(message.trim().replaceFirst("PHPStan.* ([\\d.]*).*", "$1").trim());
+        val version = VERSION_REGEX.find(message)
+            ?.groups
+            ?.get("version")
+            ?.value
+            ?.let { extractVersion(it) }
         return if (version == null || !message.contains(PHAN)) {
             Pair.create(false, PhpBundle.message("quality.tool.can.not.determine.version", message))
         } else {

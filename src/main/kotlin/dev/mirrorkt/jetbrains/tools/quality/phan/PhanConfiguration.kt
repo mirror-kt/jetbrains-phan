@@ -3,6 +3,7 @@ package dev.mirrorkt.jetbrains.tools.quality.phan
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.util.xmlb.annotations.Attribute
 import com.intellij.util.xmlb.annotations.Transient
+import com.jetbrains.php.PhpBundle
 import com.jetbrains.php.tools.quality.QualityToolConfiguration
 import dev.mirrorkt.jetbrains.phan.PhanBundle
 
@@ -40,7 +41,7 @@ open class PhanConfiguration : QualityToolConfiguration {
         myTimeoutMs = timeout
     }
 
-    override fun getId(): String = PhanBundle.message("local")
+    override fun getId(): String = PhpBundle.message("local")
 
     override fun getInterpreterId(): String? = null
 
