@@ -1,18 +1,28 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.mirrorkt.jetbrainsphan</id>
-    <name>jetbrains-phan Template</name>
+    <id>dev.mirror-kt.jetbrains.phan</id>
+    <name>PHP Static Analysis 'Phan' for JetBrains</name>
     <vendor>mirror-kt</vendor>
 
-    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.ultimate</depends>
+    <depends>com.jetbrains.php</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
+    <resource-bundle>messages.PhanBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.mirrorkt.jetbrainsphan.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-    </extensions>
+        <applicationService
+                serviceImplementation="dev.mirrorkt.jetbrains.tools.quality.phan.PhanConfigurationManager$PhanAppConfigurationManager"/>
+        <projectService serviceImplementation="dev.mirrorkt.jetbrains.tools.quality.phan.PhanProjectConfiguration"/>
+        <projectService serviceImplementation="dev.mirrorkt.jetbrains.tools.quality.phan.PhanConfigurationManager"/>
+        <projectService
+                serviceImplementation="dev.mirrorkt.jetbrains.tools.quality.phan.PhanConfigurationManager$PhanProjectConfigurationManager"/>
+        <projectConfigurable instance="dev.mirrorkt.jetbrains.tools.quality.phan.PhanConfigurable"
+                             bundle="messages/PhanBundle"
+                             key="configurable.quality.tool.phan"
+                             id="settings.php.quality.tools.phan"
+                             parentId="settings.php.quality.tools"
+                             groupWeight="40"/>
 
-    <applicationListeners>
-        <listener class="com.github.mirrorkt.jetbrainsphan.listeners.MyApplicationActivationListener" topic="com.intellij.openapi.application.ApplicationActivationListener"/>
-    </applicationListeners>
+        <!--        <platform.lsp.serverSupportProvider implementation="dev.mirrorkt.jetbrains.phan.lsp.PhanLspServerSupportProvider" />-->
+    </extensions>
 </idea-plugin>

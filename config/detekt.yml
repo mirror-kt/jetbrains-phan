@@ -1,0 +1,4 @@
+style:
+  ReturnCount:
+    excludeLabeled: true
+    excludeGuardClauses: true
