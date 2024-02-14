@@ -1,6 +1,5 @@
 package dev.mirrorkt.jetbrains.tools.quality.phan.remote
 
-import com.intellij.openapi.components.service
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.text.StringUtil
 import com.intellij.util.NullableFunction
@@ -58,7 +57,7 @@ class PhanRemoteConfigurationProvider : PhanConfigurationProvider() {
         fillDefaultSettings(
             project,
             settings,
-            project?.service<PhanConfigurationManager>()?.localSettings,
+            project?.let { PhanConfigurationManager.getInstance(it) }?.localSettings,
             data,
             data is PhpRemoteSdkAdditionalData
         )

@@ -3,4 +3,9 @@
         <phanConfigurationProvider
                 implementation="dev.mirrorkt.jetbrains.tools.quality.phan.remote.PhanRemoteConfigurationProvider"/>
     </extensions>
+    <extensions defaultExtensionNs="com.intellij">
+        <!--suppress PluginXmlValidity -->
+        <platform.lsp.serverSupportProvider
+                implementation="dev.mirrorkt.jetbrains.phan.lsp.PhanRemoteLspServerSupportProvider"/>
+    </extensions>
 </idea-plugin>

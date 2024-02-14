@@ -1,21 +1,17 @@
 package dev.mirrorkt.jetbrains.phan.lsp
 
-import com.intellij.openapi.components.service
-import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.platform.lsp.api.LspServerSupportProvider
-import com.jetbrains.php.config.commandLine.PhpCommandSettings
+import com.jetbrains.php.config.interpreters.PhpInterpreter
 import com.jetbrains.php.config.interpreters.PhpInterpretersManagerImpl
 import com.jetbrains.php.lang.PhpFileType
+import dev.mirrorkt.jetbrains.tools.quality.phan.PhanConfiguration
+import dev.mirrorkt.jetbrains.tools.quality.phan.PhanOptionsConfiguration
 import dev.mirrorkt.jetbrains.tools.quality.phan.PhanProjectConfiguration
 
 @Suppress("UnstableApiUsage")
-class PhanLspServerSupportProvider : LspServerSupportProvider {
-    companion object {
-        private val LOGGER = thisLogger()
-    }
-
+open class PhanLspServerSupportProvider : LspServerSupportProvider {
     override fun fileOpened(
         project: Project,
         file: VirtualFile,
@@ -25,23 +21,31 @@ class PhanLspServerSupportProvider : LspServerSupportProvider {
             return
         }
 
-        val configuration = project.service<PhanProjectConfiguration>()
+        val configuration = PhanProjectConfiguration.getInstance(project)
             .findSelectedConfiguration(project)
             ?: return
         val toolPath = configuration.toolPath
         if (toolPath.isEmpty()) {
             return
         }
+        val options = PhanOptionsConfiguration.getInstance(project)
         val interpreter = PhpInterpretersManagerImpl.getInstance(project)
             .findInterpreterById(configuration.interpreterId)
             ?: return
-        val command = PhpCommandSettings.createHelperCommand(
-            project,
-            toolPath,
-            interpreter.isRemote,
-            interpreter
-        )
+        if (!canStart(interpreter)) {
+            return
+        }
 
-        serverStarter.ensureServerStarted(PhanLspDescriptor(project, command))
+        val lspDescriptor = getLspDescriptor(project, interpreter, configuration, options)
+        serverStarter.ensureServerStarted(lspDescriptor)
     }
+
+    protected open fun getLspDescriptor(
+        project: Project,
+        interpreter: PhpInterpreter,
+        configuration: PhanConfiguration,
+        options: PhanOptionsConfiguration
+    ): PhanLspDescriptor = PhanLspDescriptor(project, interpreter, configuration, options)
+
+    protected open fun canStart(interpreter: PhpInterpreter): Boolean = !interpreter.isRemote
 }

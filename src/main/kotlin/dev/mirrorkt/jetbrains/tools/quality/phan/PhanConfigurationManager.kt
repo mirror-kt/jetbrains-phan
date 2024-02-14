@@ -10,6 +10,10 @@ import com.jetbrains.php.tools.quality.QualityToolConfigurationManager
 
 @Service(Service.Level.PROJECT)
 class PhanConfigurationManager(project: Project?) : QualityToolConfigurationManager<PhanConfiguration>(project) {
+    companion object {
+        fun getInstance(project: Project): PhanConfigurationManager = project.service()
+    }
+
     init {
         if (project != null) {
             myProjectManager = project.service<PhanProjectConfigurationManager>()

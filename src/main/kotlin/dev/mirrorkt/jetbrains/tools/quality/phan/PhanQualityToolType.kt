@@ -1,6 +1,5 @@
 package dev.mirrorkt.jetbrains.tools.quality.phan
 
-import com.intellij.openapi.components.service
 import com.intellij.openapi.options.Configurable
 import com.intellij.openapi.project.Project
 import com.jetbrains.php.tools.quality.QualityToolBlackList
@@ -18,7 +17,7 @@ object PhanQualityToolType : QualityToolType<PhanConfiguration>() {
     override fun getQualityToolBlackList(project: Project): QualityToolBlackList = object : QualityToolBlackList() {}
 
     override fun getConfigurationManager(project: Project): QualityToolConfigurationManager<PhanConfiguration> =
-        project.service<PhanConfigurationManager>()
+        PhanConfigurationManager.getInstance(project)
 
     override fun getInspection(): QualityToolValidationInspection = PhanValidationInspection()
 
@@ -33,7 +32,7 @@ object PhanQualityToolType : QualityToolType<PhanConfiguration>() {
     override fun getToolConfigurable(project: Project): Configurable = PhanConfigurable(project)
 
     override fun getProjectConfiguration(project: Project): QualityToolProjectConfiguration<*> =
-        project.service<PhanProjectConfiguration>()
+        PhanProjectConfiguration.getInstance(project)
 
     override fun createConfiguration(): PhanConfiguration = PhanConfiguration()
 
