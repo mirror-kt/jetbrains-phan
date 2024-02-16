@@ -6,6 +6,7 @@ kotlin = "1.9.22"
 changelog = "2.2.0"
 gradleIntelliJPlugin = "1.17.1"
 kover = "0.7.5"
+qodana = "0.1.13"
 detekt = "1.23.5"
 
 [libraries]
@@ -16,4 +17,5 @@ changelog = { id = "org.jetbrains.changelog", version.ref = "changelog" }
 gradleIntelliJPlugin = { id = "org.jetbrains.intellij", version.ref = "gradleIntelliJPlugin" }
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+qodana = { id = "org.jetbrains.qodana", version.ref = "qodana" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
