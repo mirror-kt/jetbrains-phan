@@ -18,7 +18,7 @@ open class PhanLspDescriptor(
     project: Project,
     protected val interpreter: PhpInterpreter,
     protected val configuration: PhanConfiguration,
-    protected val options: PhanOptionsConfiguration,
+    private val options: PhanOptionsConfiguration,
 ) : ProjectWideLspServerDescriptor(project, "Phan") {
     override fun isSupportedFile(file: VirtualFile): Boolean = file.fileType == PhpFileType.INSTANCE
 
@@ -41,16 +41,24 @@ open class PhanLspDescriptor(
         }
     }
 
-    protected fun getLspCommandLineOptions(): List<String> = listOf(
-        //            "--quick",
-        "--language-server-on-stdin",
-        "--allow-polyfill-parser",
-        "--language-server-enable-go-to-definition",
-        "--language-server-enable-completion",
-        // TODO: It should have been defined in 2023.3, but for some reason it isn't.
-        //  "--language-server-enable-hover"
-        "--language-server-verbose",
-    )
+    protected fun getLspCommandLineOptions(): List<String> = buildList {
+        addAll(
+            listOf(
+                "--language-server-on-stdin",
+                "--language-server-enable-go-to-definition",
+                "--language-server-enable-completion",
+                // TODO: It should have been defined in 2023.3, but for some reason it isn't.
+                //  "--language-server-enable-hover"
+                "--language-server-verbose",
+            )
+        )
+        if (options.quickModeEnabled) {
+            add("--quick")
+        }
+        if (options.allowPolyfillParser) {
+            add("--allow-polyfill-parser")
+        }
+    }
 
     override val lspGoToDefinitionSupport: Boolean = true
 

@@ -17,6 +17,10 @@ class PhanOptionsConfiguration : QualityToolsOptionsConfiguration(),
         fun getInstance(project: Project): PhanOptionsConfiguration = project.service()
     }
 
+    var quickModeEnabled = false
+    var allowPolyfillParser = false
+    var configFile = ""
+
     override fun getState(): PhanOptionsConfiguration = this
 
     override fun loadState(state: PhanOptionsConfiguration) {

@@ -50,7 +50,7 @@ class PhanRemoteLspDescriptor(
         }
         command.addArguments(getLspCommandLineOptions())
 
-        return command.createGeneralCommandLine()
+        return command.createGeneralCommandLine().also { LOGGER.info(it.commandLineString) }
     }
 
     override fun startServerProcess(): OSProcessHandler {
