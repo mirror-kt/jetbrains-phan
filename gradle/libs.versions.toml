@@ -2,7 +2,7 @@
 # libraries
 
 # plugins
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 changelog = "2.2.0"
 gradleIntelliJPlugin = "1.17.3"
 kover = "0.7.6"
