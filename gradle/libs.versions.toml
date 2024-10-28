@@ -6,7 +6,7 @@ kotlin = "2.0.21"
 changelog = "2.2.1"
 gradleIntelliJPlugin = "1.17.4"
 kover = "0.7.6"
-qodana = "2024.2.5"
+qodana = "2024.2.6"
 detekt = "1.23.7"
 
 [libraries]
