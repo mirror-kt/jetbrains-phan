@@ -7,7 +7,7 @@ changelog = "2.2.1"
 gradleIntelliJPlugin = "1.17.4"
 kover = "0.7.6"
 qodana = "2024.3.4"
-detekt = "1.23.7"
+detekt = "1.23.8"
 
 [libraries]
 detekt-formatting = { group = "io.gitlab.arturbosch.detekt", name = "detekt-formatting", version.ref = "detekt" }
